@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online TXT File Creator & Editor</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bgMain: '#05070B',
+                        bgPanel: '#0C0F17',
+                        bgCard: '#131824',
+                        borderMain: '#1E2638',
+                        accentBlue: '#2563EB',
+                        accentCyan: '#38BDF8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #05070B; }
+        ::-webkit-scrollbar-thumb { background: #1E2638; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+
+        .glass-card {
+            background: rgba(19, 24, 36, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-bgMain text-gray-100 font-sans min-h-screen flex flex-col selection:bg-accentBlue selection:text-white">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full transition-all duration-300 ease-out glass-card px-5 py-3 rounded-xl border border-accentBlue/50 text-white shadow-xl flex items-center space-x-3 pointer-events-none">
+        <i id="toast-icon" class="fas fa-check-circle text-accentCyan"></i>
+        <span id="toast-msg" class="text-sm font-medium">Notification</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="bg-bgPanel/80 backdrop-blur-md border-b border-borderMain sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-accentBlue flex items-center justify-center text-white shadow-lg">
+                    <i class="fas fa-file-alt text-lg"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-base tracking-wide text-white">Text Tools Hub</span>
+                    <span class="text-[10px] text-gray-400 block -mt-1">Free Online File Creator</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-300">
+                <a href="#" class="hover:text-accentCyan transition">Home</a>
+                <a href="#" class="text-accentCyan font-semibold">TXT Creator</a>
+                <a href="#" class="hover:text-accentCyan transition">All Tools</a>
+                <a href="#" class="hover:text-accentCyan transition">About</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button id="btn-copy" class="glass-card hover:bg-bgCard text-xs font-semibold px-3.5 py-2 rounded-lg border border-borderMain text-gray-200 transition flex items-center space-x-2">
+                    <i class="fas fa-copy text-accentCyan"></i>
+                    <span>Copy Text</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-4 pt-12 pb-8 text-center space-y-4">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-accentBlue/10 border border-accentBlue/30 text-accentCyan mb-2">
+            <i class="fas fa-file-code text-xl"></i>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+            Make a <span class="text-accentCyan">TXT File</span> in Your Browser
+        </h1>
+
+        <p class="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto">
+            Type or paste your content, pick a filename, and grab your <span class="text-gray-200 font-semibold">.txt</span> file in one click — <strong class="text-white">nothing is uploaded anywhere</strong>. Works entirely offline on any device.
+        </p>
+
+        <!-- Badges -->
+        <div class="flex flex-wrap justify-center gap-2 pt-2">
+            <span class="text-xs bg-bgCard border border-borderMain px-3 py-1 rounded-full text-gray-300 flex items-center gap-1.5">
+                <i class="fas fa-check-circle text-green-400 text-[10px]"></i> Free Online Notepad
+            </span>
+            <span class="text-xs bg-bgCard border border-borderMain px-3 py-1 rounded-full text-gray-300 flex items-center gap-1.5">
+                <i class="fas fa-shield-alt text-accentCyan text-[10px]"></i> Secure (No Server Storage)
+            </span>
+            <span class="text-xs bg-bgCard border border-borderMain px-3 py-1 rounded-full text-gray-300 flex items-center gap-1.5">
+                <i class="fas fa-wifi text-amber-400 text-[10px]"></i> Offline Compatible
+            </span>
+            <span class="text-xs bg-bgCard border border-borderMain px-3 py-1 rounded-full text-gray-300 flex items-center gap-1.5">
+                <i class="fas fa-font text-purple-400 text-[10px]"></i> UTF-8 Supported
+            </span>
+        </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <main class="max-w-6xl w-full mx-auto px-4 pb-16 flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left: Text Editor -->
+        <div class="lg:col-span-2 glass-card rounded-2xl p-5 border border-borderMain flex flex-col justify-between space-y-4 shadow-xl">
+            <div class="flex items-center justify-between border-b border-borderMain/60 pb-3">
+                <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-edit text-accentCyan"></i> Professional Text Editor
+                </h2>
+                <button id="btn-clear" class="text-xs text-gray-400 hover:text-red-400 transition flex items-center gap-1">
+                    <i class="fas fa-trash-alt"></i> Clear Editor
+                </button>
+            </div>
+
+            <!-- Textarea Area -->
+            <textarea id="text-editor" rows="14" class="w-full bg-bgMain border border-borderMain rounded-xl p-4 text-sm font-mono text-gray-200 focus:outline-none focus:border-accentBlue resize-none transition" placeholder="Type or paste your content here..."></textarea>
+
+            <!-- Metadata Stats Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-gray-400 bg-bgMain/60 p-3 rounded-xl border border-borderMain/40">
+                <div class="flex items-center space-x-4">
+                    <span>Characters: <strong id="stat-chars" class="text-white">0</strong></span>
+                    <span>Words: <strong id="stat-words" class="text-white">0</strong></span>
+                    <span>Lines: <strong id="stat-lines" class="text-white">1</strong></span>
+                </div>
+                <div>
+                    <span>Size: <strong id="stat-size" class="text-accentCyan">0 B</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Settings & Download Control -->
+        <div class="glass-card rounded-2xl p-5 border border-borderMain flex flex-col justify-between space-y-6 shadow-xl">
+            <div class="space-y-4">
+                <h2 class="text-sm font-bold text-white flex items-center gap-2 border-b border-borderMain/60 pb-3">
+                    <i class="fas fa-download text-accentCyan"></i> Save & Download
+                </h2>
+
+                <!-- Filename Input -->
+                <div>
+                    <label class="text-xs font-semibold text-gray-300 block mb-1">Set Filename:</label>
+                    <div class="flex items-center">
+                        <input type="text" id="filename-input" value="MyDocument" class="w-full bg-bgMain border border-borderMain rounded-l-xl p-2.5 text-sm text-white focus:outline-none focus:border-accentBlue font-mono">
+                        <span class="bg-bgCard border border-l-0 border-borderMain text-gray-400 px-3 py-2.5 rounded-r-xl text-sm font-mono">.txt</span>
+                    </div>
+                </div>
+
+                <!-- Encoding Selection -->
+                <div>
+                    <label class="text-xs font-semibold text-gray-300 block mb-1">Encoding:</label>
+                    <select id="encoding-select" class="w-full bg-bgMain border border-borderMain rounded-xl p-2.5 text-xs text-gray-300 focus:outline-none focus:border-accentBlue">
+                        <option value="utf-8">UTF-8 (Standard)</option>
+                        <option value="utf-16le">UTF-16 LE</option>
+                    </select>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="bg-bgMain/40 p-3.5 rounded-xl border border-borderMain/40 text-xs text-gray-400 space-y-2">
+                    <p class="font-semibold text-gray-300 flex items-center gap-1.5">
+                        <i class="fas fa-info-circle text-accentCyan"></i> How it works:
+                    </p>
+                    <p>Your text is converted into a temporary downloadable link inside your web browser's RAM memory. No data is sent over the network.</p>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <button id="btn-download" class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-accentBlue hover:bg-blue-600 text-white shadow-lg transition flex items-center justify-center space-x-2">
+                <i class="fas fa-file-download"></i>
+                <span>Download .TXT File</span>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-borderMain py-6 bg-bgPanel/60 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500 space-y-1">
+            <p>© Client-side Text Creator Tool • Secure Browser-based Utility</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editor = document.getElementById('text-editor');
+            const statChars = document.getElementById('stat-chars');
+            const statWords = document.getElementById('stat-words');
+            const statLines = document.getElementById('stat-lines');
+            const statSize = document.getElementById('stat-size');
+            
+            const filenameInput = document.getElementById('filename-input');
+            const btnDownload = document.getElementById('btn-download');
+            const btnCopy = document.getElementById('btn-copy');
+            const btnClear = document.getElementById('btn-clear');
+
+            // Update Statistics
+            function updateStats() {
+                const text = editor.value;
+                const chars = text.length;
+                const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+                const lines = text ? text.split('\n').length : 1;
+                
+                // Calculate size in bytes (UTF-8)
+                const bytes = new Blob([text]).size;
+                
+                statChars.textContent = chars.toLocaleString();
+                statWords.textContent = words.toLocaleString();
+                statLines.textContent = lines.toLocaleString();
+                
+                if (bytes < 1024) {
+                    statSize.textContent = `${bytes} B`;
+                } else {
+                    statSize.textContent = `${(bytes / 1024).toFixed(2)} KB`;
+                }
+            }
+
+            editor.addEventListener('input', updateStats);
+
+            // Clear Editor
+            btnClear.addEventListener('click', () => {
+                editor.value = '';
+                updateStats();
+                showToast('Editor cleared!');
+            });
+
+            // Copy Text
+            btnCopy.addEventListener('click', () => {
+                if (!editor.value) {
+                    showToast('Nothing to copy!');
+                    return;
+                }
+                navigator.clipboard.writeText(editor.value).then(() => {
+                    showToast('Copied to clipboard!');
+                });
+            });
+
+            // Download File
+            btnDownload.addEventListener('click', () => {
+                const text = editor.value;
+                let filename = filenameInput.value.trim() || 'MyDocument';
+                if (!filename.endsWith('.txt')) {
+                    filename += '.txt';
+                }
+
+                const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+
+                showToast(`Downloaded ${filename}!`);
+            });
+
+            // Toast Helper
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                const toastMsg = document.getElementById('toast-msg');
+                toastMsg.textContent = message;
+
+                toast.classList.remove('translate-x-full');
+                setTimeout(() => {
+                    toast.classList.add('translate-x-full');
+                }, 2500);
+            }
+        });
+    </script>
+</body>
+</html>
